@@ -21,3 +21,9 @@ __pycache__/
 
 # stray test output
 tests/test.log
+
+# delivery documents, not code — they name a specific athlete
+SETUP.md
+READ-ME-FIRST.txt
+INSTALL.bat
+INSTALL.command
