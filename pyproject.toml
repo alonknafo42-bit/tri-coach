@@ -26,6 +26,11 @@ ari-dashboard = "ari_coach.server:cli"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/garmin_mcp", "src/ari_coach"]
+# The coaching brief must travel inside the wheel. Left in config/ it is
+# visible in the repository and absent from the installed package, so a
+# uvx-launched server loads with no instructions at all -- and a coach with
+# no instructions is just Claude with Garmin access.
+artifacts = ["src/ari_coach/coach-instructions.md"]
 
 [tool.uv]
 dev-dependencies = [

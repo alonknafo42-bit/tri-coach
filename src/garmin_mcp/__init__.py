@@ -426,8 +426,13 @@ def main():
     # at initialize, so the coach arrives already knowing who this athlete
     # is -- and the setup loses a step that was easy to skip and invisible
     # when skipped.
+    # Read from the installed package first, so a uvx launch -- where the
+    # repository's config/ directory does not exist -- still gets the brief.
+    # An explicit ARI_COACH_BRIEF still wins, for anyone editing it locally.
     _brief = ""
-    for _cand in (os.getenv("ARI_COACH_BRIEF"),
+    _packaged = os.path.join(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "ari_coach", "coach-instructions.md")
+    for _cand in (os.getenv("ARI_COACH_BRIEF"), _packaged,
                   os.path.join(os.path.dirname(os.path.dirname(
                       os.path.dirname(os.path.abspath(__file__)))),
                       "config", "coach-instructions.md")):
