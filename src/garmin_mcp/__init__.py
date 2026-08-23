@@ -30,6 +30,9 @@ from garmin_mcp import workout_builders
 from garmin_mcp import courses
 from garmin_mcp import activity_analysis
 
+# Ari's coaching layer: plan ownership, cache-backed reads, tri workout builders.
+from ari_coach import tools as ari_tools
+
 
 def is_interactive_terminal() -> bool:
     """Detect if running in interactive terminal vs MCP subprocess.
@@ -414,10 +417,39 @@ def main():
     workout_builders.configure(garmin_client)
     courses.configure(garmin_client)
     activity_analysis.configure(garmin_client)
+    ari_tools.configure(garmin_client)
 
     # Create the MCP app, wrapped so the env-var filter can drop tools.
     # host/port only matter for the HTTP transports; stdio ignores them.
-    fastmcp = FastMCP("Garmin Connect v1.0", host=http_host, port=http_port)
+    # The coaching brief travels inside the server rather than living in
+    # the client's project settings. MCP hands `instructions` to the model
+    # at initialize, so the coach arrives already knowing who this athlete
+    # is -- and the setup loses a step that was easy to skip and invisible
+    # when skipped.
+    _brief = ""
+    for _cand in (os.getenv("ARI_COACH_BRIEF"),
+                  os.path.join(os.path.dirname(os.path.dirname(
+                      os.path.dirname(os.path.abspath(__file__)))),
+                      "config", "coach-instructions.md")):
+        if _cand and os.path.exists(_cand):
+            try:
+                with open(_cand, encoding="utf-8") as _fh:
+                    _brief = _fh.read()
+                break
+            except OSError:
+                pass
+
+    # Generic principles from the package + this athlete's own numbers,
+    # computed at startup. Keeping them apart is what lets the code live in a
+    # public repository while the health record never leaves the machine.
+    try:
+        from ari_coach.brief import athlete_section
+        _brief = (_brief or "") + athlete_section()
+    except Exception:
+        pass
+
+    fastmcp = FastMCP("Garmin Connect v1.0", host=http_host, port=http_port,
+                      instructions=_brief or None)
     app = _ToolFilter(fastmcp, enabled_tools, disabled_tools)
     if enabled_tools:
         print(f"Tool filter: allowlist of {len(enabled_tools)} tool(s).", file=sys.stderr)
@@ -440,6 +472,7 @@ def main():
     app = workout_builders.register_tools(app)
     app = courses.register_tools(app)
     app = activity_analysis.register_tools(app)
+    app = ari_tools.register_tools(app)
 
     # Register resources (workout templates)
     app = workout_templates.register_resources(app)

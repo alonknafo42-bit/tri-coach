@@ -1,0 +1,86 @@
+# The allowlist. 158 tools are registered; this cuts them to ~32.
+#
+# Not tidiness: every tool definition sits in the model's context on every
+# turn, and the upstream README warns that 110+ "can be a lot of context".
+# A coach carrying 158 tool schemas is slower and less accurate at picking
+# the right one -- which is the "slow and not smart" complaint, reproduced
+# in a new place.
+#
+# Rule for what stays: everything a triathlon coach could reasonably want.
+# The first cut of this list kept 35 and was too aggressive -- it dropped
+# body composition, sleep detail, stress, Body Battery and personal records
+# to save context that turned out to cost 3K tokens in total.
+
+# ── Ari's coaching layer ──────────────────────────────────────────────
+get_athlete_profile
+save_athlete_profile
+get_training_summary
+get_training_week
+analyze_plan_vs_actual
+analyze_last_session
+get_review_context
+set_workout_day
+set_day_status
+move_workout
+remove_workout
+propose_plan
+get_pending_proposal
+approve_proposal
+reject_proposal
+remember_preference
+preview_workout
+push_workout_to_watch
+push_plan_days_to_watch
+remove_from_watch
+refresh_from_garmin
+
+# ── single-session deep dives (not in the cache) ──────────────────────
+get_activity
+get_activity_splits
+get_activity_hr_in_timezones
+get_activity_power_in_timezones
+
+# ── watch state ──────────────────────────────────────────────────────
+get_scheduled_workouts
+get_workouts
+delete_workout
+
+# ── Garmin's own computed trends and anchors ─────────────────────────
+get_training_load_trend
+get_vo2max_trend
+get_hrv_trend
+get_training_readiness
+get_race_predictions
+get_cycling_ftp
+get_lactate_threshold
+
+# ── the rest of what a coach might reasonably want ───────────────────
+# Added after measuring rather than guessing. All 158 tools cost ~30K
+# tokens of context per turn; these 24 cost ~3K between them. The 22K
+# that was actually worth cutting is nutrition, badges, gear, devices
+# and cycle tracking -- none of which a triathlon coach needs.
+get_body_composition
+get_weigh_ins
+get_sleep_summary
+get_stress_data
+get_all_day_stress
+get_body_battery
+get_respiration_data
+get_spo2_data
+get_heart_rates
+get_training_effect
+get_training_load_balance
+get_morning_training_readiness
+get_personal_record
+get_endurance_score
+get_hill_score
+get_power_duration_curve
+get_daily_steps
+get_weekly_intensity_minutes
+get_stats
+get_progress_summary_between_dates
+get_activities_by_date
+get_activity_typed_splits
+get_activity_exercise_sets
+get_activity_weather
+get_fitnessage_data

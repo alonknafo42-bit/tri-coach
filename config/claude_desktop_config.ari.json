@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "ari-coach": {
+      "command": "uvx",
+      "args": [
+        "--python",
+        "3.12",
+        "--from",
+        "git+https://github.com/USER/ari-coach",
+        "garmin-mcp"
+      ],
+      "env": {
+        "GARMIN_ENABLED_TOOLS": "get_athlete_profile,save_athlete_profile,get_training_summary,get_training_week,analyze_plan_vs_actual,get_review_context,set_workout_day,set_day_status,move_workout,remove_workout,propose_plan,get_pending_proposal,approve_proposal,reject_proposal,remember_preference,preview_workout,push_workout_to_watch,push_plan_days_to_watch,remove_from_watch,refresh_from_garmin,get_activity,get_activity_splits,get_activity_hr_in_timezones,get_activity_power_in_timezones,get_scheduled_workouts,get_workouts,delete_workout,get_training_load_trend,get_vo2max_trend,get_hrv_trend,get_training_readiness,get_race_predictions,get_cycling_ftp,get_lactate_threshold"
+      }
+    }
+  }
+}

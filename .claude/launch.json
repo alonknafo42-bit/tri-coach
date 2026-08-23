@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ari-dashboard",
+      "runtimeExecutable": "uv",
+      "runtimeArgs": ["run", "python", "-c",
+        "import sys,os;sys.path.insert(0,'src');os.environ.setdefault('ARI_COACH_DB',os.path.expanduser('~/.ari-coach/cache.db'));from ari_coach import server;server.serve(port=8770,open_browser=False)"],
+      "port": 8770
+    }
+  ]
+}

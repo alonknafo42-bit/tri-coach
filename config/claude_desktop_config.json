@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "ari-coach": {
+      "command": "uvx",
+      "args": ["--python", "3.12", "--from", "PATH_TO_ARI_COACH", "garmin-mcp"],
+      "env": {
+        "GARMINTOKENS": "~/.garminconnect",
+        "GARMIN_ENABLED_TOOLS": "GENERATED_AT_INSTALL"
+      }
+    }
+  }
+}

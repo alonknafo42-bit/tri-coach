@@ -1,25 +1,23 @@
-# Python
+# Nothing here belongs to anyone: the athlete's tokens, cache and plan live in
+# ~/.ari-coach and ~/.garminconnect, outside the repository by design. These
+# rules exist so a stray copy during testing can never be committed.
+garmin_tokens.json
+*.db
+*.db-journal
+.env*
+morning.log
+index.html
+
+.venv/
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
+.pytest_cache/
 *.egg-info/
-dist/
-build/
-*.egg
-
-# Virtual environments
-.env
-.venv/
-.uv-cache/
-*.log
 .DS_Store
-.claude.md
-.mcp.json
-docs/*
-.gitignore
-playground/*
-scratch/*
-tests/fixtures/captured/*
-!tests/fixtures/captured/poc_walk_run.json
+
+# built artefacts
+*.dxt
+!fallback/*.dxt
+
+# stray test output
+tests/test.log
